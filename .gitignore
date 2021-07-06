@@ -1,3 +1,5 @@
+/.idea/
+/target/
 # Compiled class file
 *.class
 
@@ -15,6 +17,7 @@
 *.war
 *.nar
 *.ear
+*.iml
 *.zip
 *.tar.gz
 *.rar
