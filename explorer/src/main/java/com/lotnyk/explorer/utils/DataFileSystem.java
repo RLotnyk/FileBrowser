@@ -1,6 +1,5 @@
 package com.lotnyk.explorer.utils;
 
-import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.stereotype.Component;
 
@@ -8,40 +7,32 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.stream.Stream;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Component
-@AllArgsConstructor
-public class FileSystemAction {
+public class DataFileSystem {
 
-    private final FileSystem system;
-
-
-    public void create(String path, String name) {
-        File file = new File(path + File.separator + name);
-        if (!file.exists()) {
-            file.mkdir();
-            system.add(file);
-        }
+    public boolean create(String path) {
+        return new File(path).mkdir();
     }
 
-    public void delete(File file) throws IOException {
-
-        Stream<Path> stream = Files.walk(file.toPath());
-        stream.forEach(
-                (Path path) -> {
-                    system.delete(path.toFile());
-                }
-        );
+    public List<Path> delete(File file) throws IOException {
+        List<Path> paths = Files.walk(file.toPath()).collect(Collectors.toList());
         if (file.isFile()) {
             file.delete();
         } else {
             FileUtils.cleanDirectory(file);
             FileUtils.forceDelete(file);
         }
+        return paths;
     }
 
-    public void uploadFile(File file) {
-        system.uploadFile(file);
+    public List<File> findFile(String path, String text) throws IOException {
+        return Files.walk(Paths.get(path)).map(Path::toFile).filter(
+                file -> file.getName().equalsIgnoreCase(text)
+        ).collect(Collectors.toList());
     }
 }
