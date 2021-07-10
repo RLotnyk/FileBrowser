@@ -10,7 +10,6 @@ function update() {
         );
     });
 }
-
 function main() {
     $('#jstree')
         .jstree({
@@ -24,18 +23,12 @@ function main() {
                     "icon": "jstree-icon jstree-file"
                 }
             },
-
-            'sort' : function(a, b) {
-                a1 = this.get_node(a);
-                b1 = this.get_node(b);
-                if (a1.icon == b1.icon){
-                    return (a1.text > b1.text) ? 1 : -1;
-                } else {
-                    return (a1.icon > b1.icon) ? 1 : -1;
-                }
-            },
                 "search": {
-                    "case_sensitive": true
+                    "case_insensitive": false,
+                    "ajax": {
+                        "url": "search",
+                        "type": "GET"
+                    }
                 },
                 "core": {
                     "check_callback": true,
@@ -68,12 +61,12 @@ function main() {
                                             $.ajax({
                                                 url: 'create',
                                                 type: 'POST',
-                                                data: {
+                                                dataType: "json",
+                                                contentType: "application/json",
+                                                data: JSON.stringify({
                                                     id: $node.id,
-                                                    name: node.text
-                                                },
-                                                success: function (data) {
-                                                }
+                                                    text: node.text
+                                                }),
                                             });
                                             update();
                                         }
@@ -89,7 +82,11 @@ function main() {
                                     $.ajax({
                                         url: 'delete',
                                         type: 'POST',
-                                        data: {id: $node.id}
+                                        dataType:"json",
+                                        contentType: "application/json",
+                                        data: JSON.stringify({
+                                            id: $node.id
+                                        })
                                     });
                                     update();
                                 }

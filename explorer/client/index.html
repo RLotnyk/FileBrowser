@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Explorer</title>
+    <title>WebFileBrowser</title>
     <link rel="stylesheet" href="themes/default/style.min.css"/>
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/starter-template.css" rel="stylesheet">
@@ -10,44 +10,24 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/tree.js"></script>
     <script src="js/upload.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#search_field").keyup(function () {
-                var search = $(this).val();
-                $('#search_tree').click(function () {
-                    ($.ajax({
-                        url: 'find',
-                        type: 'GET',
-                        data: {
-                            name: search
-                        },
-                        success: function (data) {
-                            $('#jstree').jstree('search', search);
-                        }
-                    }));
-                })
-            });
-        });
-    </script>
-
+    <script src="js/search.js"></script>
+    <script src="js/jstree.js"></script>
 </head>
-<body>
 
+<body>
+<label style="color: rebeccapurple">Max Size File Upload:5MB</label>
 <form id="form" enctype="multipart/form-data">
-    <input class="btn btn-primary" type="file" id="file"/></br>
-    <input id="button" class="btn btn-success" type="submit" value="Upload"/>
+    <input type="file" id="file"/></br>
+    <input id="button" class="btn btn-success" type="button" value="Upload"/>
 </form>
 
 
 <div class="container">
     <div class="starter-template">
-        <fieldset id="search">
-            <input type="text" name="search_field" id="search_field" placeholder="Enter Text"/>
-            <button id="search_tree">Search</button>
-        </fieldset>
+        <input type="text" name="search-input" id="search-input" placeholder="Enter Text"/>
+        <button id="search" name="search" class="btn btn-info">Search</button>
         <div id="jstree"></div>
     </div>
 </div>
-
 </body>
 </html>

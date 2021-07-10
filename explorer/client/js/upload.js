@@ -3,7 +3,12 @@ function file_upload_server(path, file) {
     const form = new FormData();
     form.append("path", path);
     form.append("file", file);
-    xhr.open("POST", "upload", false);
+    xhr.onload = function () {
+      if (xhr.status == 200) {
+          update();
+      }
+    };
+    xhr.open("POST", "upload", true);
     xhr.send(form);
 }
 

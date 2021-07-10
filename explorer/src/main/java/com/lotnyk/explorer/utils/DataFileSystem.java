@@ -1,7 +1,7 @@
 package com.lotnyk.explorer.utils;
 
+import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -11,14 +11,11 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 @Component
+@AllArgsConstructor
 public class FileSystemAction {
 
     private final FileSystem system;
 
-    @Autowired
-    public FileSystemAction(final FileSystem system) {
-        this.system = system;
-    }
 
     public void create(String path, String name) {
         File file = new File(path + File.separator + name);
@@ -45,6 +42,6 @@ public class FileSystemAction {
     }
 
     public void uploadFile(File file) {
-        system.add(file);
+        system.uploadFile(file);
     }
 }
